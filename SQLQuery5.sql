@@ -1,0 +1,169 @@
+/* 
+  AUGUST 03.2023
+  DATE  -- ih chuhal data g ognoo r ni yalgana.
+  yag odoo bgaa tsag hugatsaag avya
+*/
+SELECT GETDATE() --- Odoo bgaa tsagiig data oruulahad INSERT  COMMAND ORUULSANDAA -- 2023-08-03 22:10;17.873 (UTC HOUR UTC+00:00)
+  
+SELECT DATEADD (WEEK, 3, GETDATE())  --- 3 WEEK IIN DARAA
+SELECT DATEADD (MONTH, -3, GETDATE()) --- 3 WEEK IIN UMNU
+SELECT DATEADD (YEAR, -2, GETDATE())
+SELECT DATEADD (WEEK, -14, GETDATE())
+SELECT DATEADD (HOUR, -9, GETDATE())
+SELECT DATEADD (MINUTE, -222, GETDATE()) -- 222 MINUTIIN UMNU
+
+SELECT SYSDATETIMEOFFSET()  --- UTC ZONED TUL +00:00 BNA.
+
+SELECT DATEADD (WEEK, -3, GETDATE())
+SELECT DATEADD (DAY, -5, GETDATE())  --- 2023-7-29 22 28 16 SECOND
+SELECT DATEADD (YEAR, -2, GETDATE()) --- 2021 - 08-03 22:29:08 BAIJEE.
+
+
+ SELECT GETDATE(), * FROM DBO.ORDERS
+  SELECT *FROM DBO.EMPLOYEE
+  SELECT *FROM DBO.CUSTOMERS
+
+SELECT GETDATE(), * FROM DBO.ORDERS  --- 
+  INSERT INTO DBO.ORDERS 
+  (customerid, emploYEEid, orderdate,
+  requireDdate, shippeddate, shipvia, freight, 
+  shipname, shipaddress, shipcity, shipregion,
+  shippostalcode, shipcountry)  
+  values 
+  ('TOMSP', '5', getdate(),
+  DATEADD(WEEK, 3, GETDATE()), DATEADD (DAY, 2, GETDATE()), DATEADD (DAY, 2, GETDATE()), 3, 12.11, 
+  'TUGULDUR', '5550 COLUMBIA PIKE APT 1111', 'ARLINGTON', 'VA', 
+  '22204', 'USA')
+
+ SELECT *FROM DBO.ORDERS WHERE SHIPNAME='TUGULDUR'
+
+ SELECT GETDATE(), * FROM DBO.ORDERS  --- BOLOOGYI HIIH HEREGTEI
+  INSERT INTO DBO.ORDERS 
+  (customerid, emploYEEid, orderdate,
+  requireDdate, shippeddate, shipvia, freight, 
+  shipname, shipaddress, shipcity, shipregion,
+  shippostalcode, shipcountry)  
+  values 
+  ('NNARA', '20', getdate(),
+  DATEADD(WEEK, 4, GETDATE()), DATEADD (DAY, 17, GETDATE()), DATEADD (DAY, 20, GETDATE()), 3, 14.12, 
+  'NARAA', 'PENTAGON APT 1736', 'ARLINGTON', 'VA', 
+  '22204', 'USA')
+
+ SELECT *FROM DBO.ORDERS WHERE SHIPNAME='NARAA'
+
+
+---- TURSUN ON BOLON SAR IIG ZUVHUN OL GEHEER ---
+SELECT YEAR(GETDATE())
+SELECT MONTH(GETDATE())
+
+SELECT MONTH(ORDERDATE), * FROM DBO.ORDERS
+
+SELECT MONTH(ORDERDATE) AS ORDER_SAR, * FROM DBO.ORDERS  --- ORDER DATE SALGAJ AVAAD EHNII CPLUMN AA ORDER_SAR NER UGUV
+WHERE MONTH (ORDERDATE) = 8  --- 8 SARIIN ZAHIALGA
+
+SELECT COUNT(*) FROM DBO.ORDERS
+WHERE MONTH(ORDERDATE) = 9
+
+SELECT COUNT (*) FROM DBO.ORDERS
+WHERE MONTH(ORDERDATE) = 12  --- 79 ORDER HIISEN BAN 12 SARD
+
+SELECT COUNT (*) FROM DBO.ORDERS
+WHERE DAY(ORDERDATE) = 1  -- ND 26 ORDER BNA.
+
+SELECT COUNT (*) FROM DBO.ORDERS
+WHERE DAY(ORDERDATE) = 30  --- 29 ORDER HIISEN BAINA.
+
+--- FORMAT --- ( JISHEE NI ODOO USA MNG OGNOO BICHILT UUR BDAGIIG SOLIH)
+
+SELECT FORMAT (GETDATE(), 'YYYY-MM-DD')
+
+SELECT GETDATE()
+SELECT FORMAT(GETDATE(), 'MM-dd-yyyy') AS USA, GETDATE() AS MONGOL --- USA , MNG DATE EER GARGAV 
+
+SELECT FORMAT(GETDATE(), 'MM-dd-yyyy HH:MM:SS') AS USA, GETDATE() AS MONGOL -- TSAGTAI DATE GARGAV USA&MNG
+SELECT FORMAT(GETDATE(), 'MM/dd/yyyy HH:MM:SS') AS USA, GETDATE() AS MONGOL --- GEED ON SAR UDRIIG NI UURCHILJ BOLNO.
+
+
+
+ ---- PRACTICE --- 
+
+
+ SELECT FIRST_NAME, LAST_NAME FROM SALES.CUSTOMERS  --- ZUVHUN FIRST, LAST NAME 
+ WHERE ZIP_CODE = 14127  ---22 
+
+  SELECT * FROM SALES.ORDERS
+ SELECT COUNT (CUSTOMER_ID) FROM SALES.ORDERS -- 1621   --- NIIT 1621 order hiigdsen daraachiin QUERY eer customer davtagdaj order hiiseng davharduulahgyoi toolno.
+ 
+ SELECT COUNT (DISTINCT(CUSTOMER_ID)) FROM SALES.ORDERS  -- 1445 --- distinct - davhardsan customeriin toog tseverlene -- neg customer 10 order hiisen bj bolno. 
+  ----- HAALTNII DOTOR TALAASAA EHLEJ UILDEL HIIJ BNA GSN UG MATH IIN ARGA SHIG. HAALTNII GUNEES EHLEJ BNA GSN UG.
+
+ SELECT MAX(LIST_PRICE) AS IH_UNE, MIN(LIST_PRICE) AS BAGA_UNE, AVG(LIST_PRICE) AS DUNDAJ_UNE  FROM SALES.ORDER_ITEMS  --  MAX 11999.99,  BAGA 89.99, 
+                                                                    -- AVG 1212.7078 ( MAX, MIN, AVG GEED BUGD EES NI AVJ BGA ABOLOHOOR * HEREGLEEGYI FROM IIN UMNU)
+SELECT * FROM SALES.CUSTOMERS
+SELECT MAX(LEN(STREET)) AS MAX_LENGTH_STREET_NAME FROM SALES.CUSTOMERS  --- 29 string iin urt (character length gsn ug)		
+------  TABLET IIG MAX OR MIN OR AVG GESN TOHIOLDOLD ALIASES HIIJ NER UGNU COLUMN DAA
+
+
+
+ --- show me all unique zip_code who lives in NY ? iin query doorh.
+SELECT DISTINCT(ZIP_CODE) FROM SALES.CUSTOMERS --- UNIQUE gsn bolohoor DISTINCT iig ashiglah heregtei. 
+WHERE STATE ='NY'  --- 134
+
+ ----show all customer who not live NY and TX ? - QUERY iig bich
+SELECT * FROM SALES.CUSTOMERS
+WHERE STATE  NOT LIKE 'TX' AND STATE NOT LIKE 'NY' -- 306 CUSTOMER  -- NOT LIKE BOL DEMII . 
+
+ ---- show me all customer who does not have yahoo email ?  -- QUERY iig bich
+SELECT * FROM SALES.CUSTOMERS
+WHERE STATE <> 'TX' AND STATE <> 'NY' ----306   ENE TOHIOLDOLD <> GSN NI DEER. (not like iiig zarim no ugugduud bugd ugugduugyi bdag aas jishee: yahoo email bish gsn yed)
+
+SELECT * FROM SALES.CUSTOMERS
+WHERE STATE != 'TX' AND STATE != 'NY'  ---- 306
+
+SELECT * FROM SALES.CUSTOMERS
+WHERE STATE not in('TX', 'NY')  --- 306
+
+ ---  not like  -  todorhoi zarim iig ni medeed uguisgeh yed ( buten medehgyi yed not like must use)
+ ---- not in  ---  bas ashiglaj bolno.
+ ---  <>  - bugd todorhoi ugugdsun uguisgel deer 
+ ---- !=    bugd todorhoi ugugdsun uguisgel deer
+
+SELECT * FROM SALES.CUSTOMERS
+WHERE EMAIL NOT LIKE '%YAHOO.COM'  --- 1186 EMAIL BUSAD   -- ('-  single quato)
+
+SELECT * FROM SALES.CUSTOMERS
+WHERE EMAIL NOT LIKE '%YAHOO.COM' and state !='CA'  --- 932
+
+SELECT * FROM SALES.CUSTOMERS
+WHERE EMAIL NOT LIKE '%YAHOO.COM' and PHONE='NULL' 
+
+----- SLIDE 5 --- NEW LESSON 
+
+NULL haih SPACE uur
+
+UPDATE DBO.CUSTOMERS SET CONTACTTITLE=' ' WHERE CUSTOMERID='0121'
+
+SELECT * FROM DBO.CUSTOMERS  --- NULL oloh doo
+
+SELECT * FROM DBO.CUSTOMERS where contacttitle is not NULL   ---  NULL olohod
+SELECT * FROM DBO.CUSTOMERS where contacttitle is  NULL
+
+SELECT * FROM DBO.CUSTOMERS where contacttitle =' '  --- HOOSON DUYU SPACE OLOHOD
+
+DISTINCT () --- REMOVE DUPLICATE 
+DISTINCT (LIST_PRICE) --- REMOVE DUPLICATE 599.9913
+DISTINCT LIST_PRICE, CUSTOMER_ID --- REMOVE DUPLICATE 599.9912 
+unique - gsn tohioldold DISTINCT hereglene
+
+SELECT DISTINCT CONTACTNAME FROM DBO.CUSTOMERS
+SELECT DISTINCT list_price, order_id FROM sales.order_items
+
+
+
+
+
+
+
+
+
+
